@@ -1,0 +1,21 @@
+{
+  "files": [
+    {
+      "aql": {
+        "items.find": {
+          "repo": "docker-local-dev",
+          "path": {
+            "$match": "ivupro/server"
+          },
+          "name": {
+            "$match": "SNAPSHOT_*"
+          },
+          "type": "folder"
+        }
+      },
+      "sortBy": [
+        "created"
+      ]
+    }
+  ]
+}
