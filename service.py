@@ -33,11 +33,13 @@ pathFiveImages = {'bacnetschub',
 def mainFunction (paths, totalRemove):
     for path in paths :
         payload = f"items.find(\n{{\n  \"repo\": \"docker-local-dev\",\n  \"path\": {{\n    \"$match\": \"{path}\"\n  }},\n  \"name\": {{\n    \"$match\": \"SNAPSHOT_*\"\n  }},\n  \"type\": \"folder\"\n}}).include(\"name\", \"repo\",\"path\")"
-        print(path)
+        print("\n------------------",path,"---------------------\n")
 
         response = requests.request("POST", url, headers=headers, data=payload)
         response_dict = json.loads(response.text)
-        print(response_dict)
+
+        prettyJson = json.dumps(response_dict, indent=1)
+        print(prettyJson)
 
         total = response_dict["range"]["total"]
         print('total artifact in the repository::', total)
