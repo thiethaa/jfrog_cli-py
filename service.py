@@ -31,7 +31,7 @@ pathFiveImages = {'bacnetschub',
 
 
 def mainFunction (paths, totalRemove):
-    for path in paths :
+    for path in paths:
         payload = f"items.find(\n{{\n  \"repo\": \"docker-local-dev\",\n  \"path\": {{\n    \"$match\": \"{path}\"\n  }},\n  \"name\": {{\n    \"$match\": \"SNAPSHOT_*\"\n  }},\n  \"type\": \"folder\"\n}}).include(\"name\", \"repo\",\"path\")"
         print("\n------------------",path,"---------------------\n")
 
@@ -42,17 +42,17 @@ def mainFunction (paths, totalRemove):
         print(prettyJson)
 
         total = response_dict["range"]["total"]
-        print('total artifact in the repository::', total)
+        print('Total Artifact in the Repository::', total)
 
         remove = total - totalRemove
-        print('total artifact to be removed::', remove)
+        print('Total Artifact to be Removed::', remove)
 
         if remove > 0:
             os.system('jfrog rt ping')
             cmd = f'jfrog rt del --spec=json-files/{path}.json --limit={remove} --dry-run --quiet=true'
             os.system(cmd)
         else:
-            print('nothing to delete!')
+            print('Nothing to Delete!')
 
 mainFunction(pathTenImages,10)
 mainFunction(pathFiveImages,5)
