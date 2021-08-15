@@ -1,0 +1,25 @@
+High level of this script is to remove the old images from artifactory to match the images in ECR that are maintaned by ECR lificycle policy.
+
+this script is written in python and I use AQL and Jfrog CLI command to cleanup the artifactory in the docker-local-dev.
+
+
+
+the result of this scrip is to match the setting on the ecr. this is the in result of this script
+1. retrieve all the images under each folder in the docker-local-dev, expected in ascending order based on creation time(oldest-newest)
+2. get the total number of images in each folder under docker-local-dev(decided how many images and specified which image need to be deleted)
+3. combination of AQL which exposed as a Artifactory RESTful API  and Jfrog CLI.
+
+items.find(
+{
+  "repo": "docker-local-dev",
+  "name":{
+      "$match":"*"
+  },
+   "name": {
+    "$match": "SNAPSHOT_*"
+  },
+  "type": "folder"
+}).sort({"$asc" : ["created"]})
+
+//cocomelon
+SECRET_TOKEN=Bearer eyJ2ZXIiOiIyIiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYiLCJraWQiOiJjWlpLMlRVZTdxT1ptZFR0OWpremh6QTRvOUpkVHNXQndhODIweF96ek9ZIn0.eyJzdWIiOiJqZmZlQDAwMFwvdXNlcnNcL2RlbW8uYXJ0aWZhY3RvcnlAZ21haWwuY29tIiwic2NwIjoiYXBwbGllZC1wZXJtaXNzaW9uc1wvYWRtaW4gYXBpOioiLCJhdWQiOiIqQCoiLCJpc3MiOiJqZmZlQDAwMCIsImlhdCI6MTYyNzQzNDY3OCwianRpIjoiZjJjMjlmNWItMzUzNi00ODg5LTk4YmMtZmQ5YzljZTZjZDY5In0.Qoh_FTyAx_AOZCwpwzQhX1VzqaglmI9EWnMOfPSlfRgk92iGZ6HLmSysKnzL5a4nXtHHHWuht3Ce2_NXcNTGlLR2pOrTe_Hqc5wh-sG4UKABB6GSlBUEodtLuPPfYnN3n5UXhC7huOpWA6ynmWVoLW57HaKvTkz0geSs1rMbFp_B3U3cPx9IRn3E4HFzqQVf6khglEcMHiRr3ymehXFaZu2s7Vur4bQmHurw0qndio0wDpZLGbru8OvSZSbJmnHD158bst4j1hcf1mGhdS-AASQYY5CW-0ZmQylyGCgU5yiHIYNo8DhCaC7vOAGiGgaaNiHC2068fdC6G7MurY8iSg

@@ -1,0 +1,12 @@
+{
+  "files": [
+    {
+      "pattern": "docker-local-dev",
+      "type": "folder",
+      "sortBy": [
+        "created"
+      ],
+      "sortOrder": "asc"
+    }
+  ]
+}
